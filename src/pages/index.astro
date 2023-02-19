@@ -1,11 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+
+const date = new Date();
+const currentYMD = date.toISOString().slice(0, 10).replace(/-/g, '/');
+const currentHMS = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+
+const resp = await fetch('https://randomuser.me/api/')
+const data = await resp.json()
+const userData = data['results'][0];
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
 		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
+		<p>Now: {currentYMD} {currentHMS}</p>
+		<section>
+			<p>Name: {userData.name.title} {userData.name.first} {userData.name.last}</p>
+			<img src={userData.picture.thumbnail} />
+		</section>
 		<p class="instructions">
 			To get started, open the directory <code>src/pages</code> in your project.<br />
 			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
